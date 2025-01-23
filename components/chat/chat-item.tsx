@@ -18,7 +18,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter, useParams } from "next/navigation";
 
 import { UserAvatar } from "@/components/user-avatar";
-import { ActionTooltip } from "@/components/action-tooltip";
+import ActionTooltip  from "@/components/action-tooltip";
 import { cn } from "@/lib/utils";
 import {
   Form,
