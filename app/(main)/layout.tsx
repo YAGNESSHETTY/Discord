@@ -1,20 +1,47 @@
-import NavigationSidebar from "@/components/navigation/navigation-sidebar";
+import "./globals.css";
+import { cn } from "@/lib/utils";
 
-const MainLayout = async ({
-    children } : {
-        children : React.ReactNode ;
-    }
-) => {
-    return ( 
-        <div className="h-full">
-            <div className="invisible md:visible md:flex h-full w-[72px] z-30 flex-col fixed inset-y-0 ">
-                <NavigationSidebar/>
-            </div>
-            <main className="md:pl-[72px] h-full">
-                {children} 
-            </main>
-        </div>
-     );
-}
- 
-export default MainLayout;
+import { ThemeProvider } from "@/components/providers/theme-provider";
+import { ModalProvider } from "@/components/providers/modal-provider";
+import { SocketProvider } from "@/components/providers/socket-provider";
+import { QueryProvider } from "@/components/providers/query-provider";
+
+import type { Metadata } from "next";
+import { Open_Sans } from "next/font/google";
+import { ClerkProvider } from "@clerk/nextjs";
+
+const openSans = Open_Sans({ subsets: ["latin"] });
+
+export const metadata: Metadata = {
+  title: "Discord Clone",
+  description:
+    "Discord Clone with Next.js, React.js, TailWindCSS & TypeScript."
+};
+
+export default function RootLayout({
+  children
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <ClerkProvider>
+      <html lang="en" suppressHydrationWarning>
+        <body
+          className={cn(openSans.className, "bg-white dark:bg-[#313338]")}
+        >
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            storageKey="discord-clone-theme"
+          >
+            <SocketProvider>
+              <ModalProvider />
+              <QueryProvider>{children}</QueryProvider>
+            </SocketProvider>
+          </ThemeProvider>
+        </body>
+      </html>
+    </ClerkProvider>
+  );
+}  
